@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const Order = require("../models/Order");
-const Cart = require("../models/Cart");
+const Order = require("../models/order");
+const Cart = require("../models/cart");
 const auth = require("../middleware/auth");
 
 // PLACE ORDER
