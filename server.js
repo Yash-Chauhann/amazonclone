@@ -1,8 +1,21 @@
-const express = require("express");
 require("dotenv").config();
+console.log("ENV TEST:", process.env.MONGO_URL);
+const dns = require("dns");
+dns.setDefaultResultOrder("ipv4first");
+
+const express = require("express");
+const mongoose = require("mongoose");
+
 const cors = require("cors");
 
 const app = express();
+
+// DB CONNECT (yahin direct)
+
+mongoose.connect(process.env.MONGO_URL)
+  .then(() => console.log("DB Connected"))
+  .catch(err => console.log("DB Error:", err.message));
+
 const PORT = 5000;
 
 app.use(cors());
@@ -10,22 +23,21 @@ app.use(express.json());
 
 // routes
 const cartRoutes = require("./routes/cart");
-app.use("/cart", cartRoutes);
-
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-});
-
-const connectDB = require("./db");
-
-connectDB();
-console.log(__dirname);
-
 const authRoutes = require("./routes/auth");
-app.use("/auth", authRoutes);
-
 const orderRoutes = require("./routes/order");
 
+app.use("/cart", cartRoutes);
+app.use("/auth", authRoutes);
 app.use("/order", orderRoutes);
 
+// test route
+app.get("/", (req, res) => {
+  res.send("API Running");
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
+
 console.log("MONGO URL:", process.env.MONGO_URL);
+console.log(__dirname);
