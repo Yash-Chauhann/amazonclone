@@ -18,12 +18,18 @@ function writeCart(data) {
 }
 
 // GET cart
+router.get("/", auth, async (req, res) => {
+    try {
+        const cart = await Cart.find({
+            userId: req.user.id
+        });
 
-
-router.get("/", async (req, res) => {
-    const cart = await Cart.find();
-    res.json(cart);
+        res.json(cart);
+    } catch (err) {
+        res.status(500).json({ error: "Server error" });
+    }
 });
+
 
 // ADD item
 router.post("/add", auth, async (req, res) => {
