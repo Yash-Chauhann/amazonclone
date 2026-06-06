@@ -1,0 +1,271 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazonclone</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+     <link rel="stylesheet" href="style.css">
+
+
+     <script>
+(function () {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+        window.location.href = "login.html";
+    }
+})();
+</script>
+
+
+</head>
+
+<body>
+<header>
+    <div class="navbar">
+       <div class="navlogo border">
+        <div class="logo"></div>
+        </div>
+        <div class="navaddress border">
+            <p class="add-first">Delivering to Meerut 250001 </p>
+        
+        <div class="navicon">
+             <i class="fa-solid fa-location-dot"></i>
+            <p class="add-second">Update location</p>
+        </div>
+        </div>
+    
+
+    <div class="nav-search">
+        <div id="search-result"></div>
+        <select class="nav-select">
+            <option>All</option>
+        </select>
+        <input placeholder="Search Amazon.in" class="nav-input">
+        <div class="search-icon">
+        <i class="fa-solid fa-magnifying-glass"></i>
+    </div>
+    </div>
+
+    <div class="nav-signin border">
+        <p><span>Hello,sign in</span></p>
+        <p class="nav-second">Account & Lists</p>
+    </div>
+    
+     <div class="nav-return border">
+        <p><span>Returns</span></p>
+        <p class="nav-second"> & Orders</p>
+    </div>
+
+    <div class="nav-cart border">
+        <i class="fa-solid fa-cart-shopping"></i>
+        Cart (<span id="cart-count">0</span>)
+    </div>
+    </div>
+    
+    <button type="button" id="add-cart-btn">
+    Add To Cart
+</button>
+
+<div id="cart-items-list"></div>
+<h3>Total: ₹<span id="total-price">0</span></h3>
+<button onclick="placeOrder()">Place Order</button>
+
+    <div class="panel">
+        <div class="panel-all border">
+            <i class="fa-solid fa-bars"></i>
+            All
+        </div>
+
+        <div class="panel-ops border">
+            <P>Today's Deal</P>
+            <p>Customer services</p>
+            <P>Registry</P>
+            <p>Gift Cards</p>
+            <P>Sell</P>
+        </div>
+
+        <div class="panel-deals border">
+            <P>Shop deals in Electronics</P>
+        </div>
+    </div>
+
+    </header>
+
+    <div class="Hero-section">
+        <div class="hero-mess">
+            <p>You are in amazon.com. You can also shop on Amazon India for millions of products with fast local delivery. <a>Click here to go Amazon.in</a></p>
+        </div>
+    </div>
+
+    <div class="shop-section">
+        <div class="box1 box" data-id="1">
+            <h2>Revamp your home <br> in style</h2>
+            <div class="box-img" ><img alt="Cushion covers, bedsheets &amp; more" src="https://images-eu.ssl-images-amazon.com/images/G/31/IMG20/Home/2024/Gateway/BTFGW/PCQC/New/1x/final/186x116_Home_furnishings_2._SY116_CB555624324_.jpg" class="_Zmx1a_fluidLandscapeImage_2euAK _Zmx1a_fluidImage_gTBjA" data-a-hires="https://images-eu.ssl-images-amazon.com/images/G/31/IMG20/Home/2024/Gateway/BTFGW/PCQC/New/2x/372x232_Home_furnishings_2._SY232_CB555629502_.jpg"> 
+                
+                <img alt="Figurines, vases &amp; more" src="https://images-eu.ssl-images-amazon.com/images/G/31/IMG20/Home/2024/Gateway/BTFGW/PCQC/New/1x/final/186x116_Home_decor_1._SY116_CB555624324_.jpg" class="_Zmx1a_fluidLandscapeImage_2euAK _Zmx1a_fluidImage_gTBjA" data-a-hires="https://images-eu.ssl-images-amazon.com/images/G/31/IMG20/Home/2024/Gateway/BTFGW/PCQC/New/2x/372x232_Home_decor_1._SY232_CB555629502_.jpg"> <img alt="Home storage" src="https://images-eu.ssl-images-amazon.com/images/G/31/IMG20/Home/2024/Gateway/BTFGW/PCQC/New/1x/final/186x116_Home_storage_1._SY116_CB555624324_.jpg" class="_Zmx1a_fluidLandscapeImage_2euAK _Zmx1a_fluidImage_gTBjA" data-a-hires="https://images-eu.ssl-images-amazon.com/images/G/31/IMG20/Home/2024/Gateway/BTFGW/PCQC/New/2x/372x232_Home_storage_1._SY232_CB555629502_.jpg"> <img alt="Lighting solutions" src="https://images-eu.ssl-images-amazon.com/images/G/31/IMG20/Home/2024/Gateway/BTFGW/PCQC/New/1x/final/186x116_Home_lighting_2._SY116_CB555624324_.jpg" class="_Zmx1a_fluidLandscapeImage_2euAK _Zmx1a_fluidImage_gTBjA" data-a-hires="https://images-eu.ssl-images-amazon.com/images/G/31/IMG20/Home/2024/Gateway/BTFGW/PCQC/New/2x/372x232_Home_lighting_2_-_Copy._SY232_CB555629502_.jpg"></div>
+
+                <p class="price">999</p>
+
+            <button class="add-to-cart">Add To Cart</button>
+            
+            <p>see more</p>
+        </div>
+        <div class="box2 box" data-id="2">
+            <h2>Appliances for your home | Up to 55% off</h2>
+            <div class="box-img" ><img alt="ACs" src="https://images-eu.ssl-images-amazon.com/images/G/31/IMG15/Irfan/GATEWAY/MSO/Appliances-QC-PC-186x116--B08RDL6H79._SY116_CB667322346_.jpg" class="_Zmx1a_fluidLandscapeImage_2euAK _Zmx1a_fluidImage_gTBjA" data-a-hires="https://images-eu.ssl-images-amazon.com/images/G/31/IMG15/Irfan/GATEWAY/MSO/Appliances-QC-PC-372x232----B08RDL6H79._SY232_CB667322346_.jpg"> <img alt="Refrigerators" src="https://images-eu.ssl-images-amazon.com/images/G/31/IMG15/Irfan/GATEWAY/MSO/Appliances-QC-PC-186x116--B08345R1ZW._SY116_CB667322346_.jpg" class="_Zmx1a_fluidLandscapeImage_2euAK _Zmx1a_fluidImage_gTBjA" data-a-hires="https://images-eu.ssl-images-amazon.com/images/G/31/IMG15/Irfan/GATEWAY/MSO/B08345R1ZW---372x232._SY232_CB667322346_.jpg"> <img alt="Microwaves" src="https://images-eu.ssl-images-amazon.com/images/G/31/IMG15/Irfan/GATEWAY/MSO/Appliances-QC-PC-186x116--B07G5J5FYP._SY116_CB667322346_.jpg" class="_Zmx1a_fluidLandscapeImage_2euAK _Zmx1a_fluidImage_gTBjA" data-a-hires="https://images-eu.ssl-images-amazon.com/images/G/31/IMG15/Irfan/GATEWAY/MSO/B07G5J5FYP._SY232_CB667322346_.jpg"> <img alt="Washing machines" src="https://images-eu.ssl-images-amazon.com/images/G/31/IMG15/Irfan/GATEWAY/MSO/186x116---wm._SY116_CB667322346_.jpg" class="_Zmx1a_fluidLandscapeImage_2euAK _Zmx1a_fluidImage_gTBjA" data-a-hires="https://images-eu.ssl-images-amazon.com/images/G/31/IMG15/Irfan/GATEWAY/MSO/Appliances-QC-PC-186x116--B08CPQVLZT._SY232_CB667322346_.jpg"> </div>
+            <p class="price">1499</p>
+
+            <button class="add-to-cart">Add To Cart</button>
+            <p>see more</p>
+
+        </div>
+        <div class="box3 box" data-id="3">
+           <h2>Up to 75% off | Deals on headphones</h2>
+           <div class="box-img" > <img alt="Boat Rockerz 113, 40H Battery, Dual Pair, Fast Charge, ENx Tech, Stream Ad Free Music via App Support, Magnetic Buds, Bluetooth Neckband, Wireless with Mic in Ear Earphones (Active Black)" src="https://m.media-amazon.com/images/I/61B5hIAmvdL._AC_SY170_.jpg" data-a-hires="https://m.media-amazon.com/images/I/61B5hIAmvdL._AC_SY340_.jpg"> <img alt="Boat Rockerz 255 Pro+, 60HRS Battery, Fast Charge, IPX7, Dual Pairing, Low Latency, Magnetic Earbuds, in Ear Bluetooth Neckband, Wireless with Mic Earphones (Active Black)" src="https://m.media-amazon.com/images/I/61+SW9nDTEL._AC_SY170_.jpg" data-a-hires="https://m.media-amazon.com/images/I/61+SW9nDTEL._AC_SY340_.jpg"> <img alt="Boat Airdopes Joy, 35Hrs Battery, Fast Charge, IWP Tech, Low Latency, 2Mic ENx, Type-C Port, v5.3 Bluetooth Earbuds, TWS Ear Buds Wireless Earphones with mic(Jet Black)" src="https://m.media-amazon.com/images/I/512jrg8-68L._AC_SY170_.jpg" data-a-hires="https://m.media-amazon.com/images/I/512jrg8-68L._AC_SY340_.jpg"> <img alt="Boat Airdopes 300, Cinematic Spatial Audio, 50HRS Battery, 4Mic AI ENx, Fast Charge, App Support, Low Latency, IPX4, v5.3 Bluetooth Earbuds, TWS Ear Buds Wireless Earphones with mic (Gunmetal Black)" src="https://m.media-amazon.com/images/I/71ndbdVgC7L._AC_SY170_.jpg" data-a-hires="https://m.media-amazon.com/images/I/71ndbdVgC7L._AC_SY340_.jpg"></div>
+            
+           <p class="price">799</p>
+
+            <button class="add-to-cart">Add To Cart</button>
+            <p>see more</p>
+
+        </div>
+        
+
+        
+      <div class="box4 box" data-id="4">
+            <h2>Starting ₹199 | Amazon Brands & more</h2>
+            <div class="box-img" > <img alt="Starting ₹199 | Bedsheets" src="https://images-eu.ssl-images-amazon.com/images/G/31/img23/PB/March/Bikram/PC_QC_HOME_SIZE_186_2._SY116_CB567468236_.jpg" class="_Zmx1a_fluidLandscapeImage_2euAK _Zmx1a_fluidImage_gTBjA" data-a-hires="https://images-eu.ssl-images-amazon.com/images/G/31/img23/PB/March/Bikram/PC_QC_HOME_SIZE_372_2._SY232_CB567468220_.jpg"> <img alt="Starting ₹199 | Curtains" src="https://images-eu.ssl-images-amazon.com/images/G/31/img23/PB/March/Bikram/PC_QC_HOME_SIZE_186_3._SY116_CB567468236_.jpg" class="_Zmx1a_fluidLandscapeImage_2euAK _Zmx1a_fluidImage_gTBjA" data-a-hires="https://images-eu.ssl-images-amazon.com/images/G/31/img23/PB/March/Bikram/PC_QC_HOME_SIZE_372_3._SY232_CB567468220_.jpg"> <img alt="Minimum 40% off | Ironing board &amp; more" src="https://images-eu.ssl-images-amazon.com/images/G/31/img23/PB/March/Bikram/PC_QC_HOME_SIZE_186_4._SY116_CB567468236_.jpg" class="_Zmx1a_fluidLandscapeImage_2euAK _Zmx1a_fluidImage_gTBjA" data-a-hires="https://images-eu.ssl-images-amazon.com/images/G/31/img23/PB/March/Bikram/PC_QC_HOME_SIZE_372_4._SY232_CB567468220_.jpg"> <img alt="Up to 60% off | Home decor" src="https://images-eu.ssl-images-amazon.com/images/G/31/img23/PB/March/Bikram/PC_QC_HOME_SIZE_186_1._SY116_CB567468236_.jpg" class="_Zmx1a_fluidLandscapeImage_2euAK _Zmx1a_fluidImage_gTBjA" data-a-hires="https://images-eu.ssl-images-amazon.com/images/G/31/img23/PB/March/Bikram/PC_QC_HOME_SIZE_372_1._SY232_CB567468220_.jpg"></div>
+
+        <p class="price">1999</p>
+            <button class="add-to-cart">Add To Cart</button>
+            <p>see more</p>
+        </div>
+      
+           <div class="box5 box" data-id="5">
+            <h2>Up to 50% off | International brands</h2>
+            <div class="box-img" > <img alt="Up to 50% off | International brands" src="https://images-eu.ssl-images-amazon.com/images/G/31/img19/OOC/Gateway/2025/2026/PC_CC_379x304_21._SY304_CB762881437_.jpg" class="_Zmx1a_fluidLandscapeImage_2euAK _Zmx1a_fluidImage_gTBjA" data-a-hires="https://images-eu.ssl-images-amazon.com/images/G/31/img19/OOC/Gateway/2025/2026/PC_CC_758x608_wk21._SY608_CB762881437_.jpg"></div>
+        
+            <p class="price">299</p>
+            <button class="add-to-cart">Add To Cart</button>
+            <p>see more</p>
+        </div>
+        
+             <div class="box6 box" data-id="6">
+            <h2>Up to 75% off | Curated products</h2>
+            <div class="box-img" > <img alt="SNS DECOR Metal Peacock Wall Art Decorations | Perfect 3D Wall Sculpture For Living Room, Bedroom, Drawing Room &amp; Office (Golden, Size:32x30inch)" src="https://m.media-amazon.com/images/I/818xVwc3sKL._AC_SY170_.jpg" data-a-hires="https://m.media-amazon.com/images/I/818xVwc3sKL._AC_SY340_.jpg"> <img alt="SNS Decor Metal Leaf (Set of 3) Copper Antique Finish Wall Art Decorations | Perfect 3D Wall Sculpture for Living Room, Bedroom, Restaurant, Hotel &amp; Office" src="https://m.media-amazon.com/images/I/817SwSOr4nL._AC_SY170_.jpg" data-a-hires="https://m.media-amazon.com/images/I/817SwSOr4nL._AC_SY340_.jpg">  <img alt="SNS DECOR Ginkgo Tree Leaf Metal Wall Art Decorations | Modern Luxury Metal Wall Nature Art Decor, | Perfect 3D Wall Sculpture For Living Room, Restaurant, Hotel &amp; Office" src="https://m.media-amazon.com/images/I/612T2u+2fqL._AC_SY170_.jpg" data-a-hires="https://m.media-amazon.com/images/I/612T2u+2fqL._AC_SY340_.jpg"> <img alt="SNS DECOR Metal Sunset Serenity LED Wall Art | Abstract Sun Wall Decor | Modern Handcrafted Designer Sun Iron Wall Decor With LED | Perfect for Living Room, Drawing Room, Restaurant (Copper Antique)" src="https://m.media-amazon.com/images/I/71bH1HvCepL._AC_SY170_.jpg" data-a-hires="https://m.media-amazon.com/images/I/71bH1HvCepL._AC_SY340_.jpg"></div>
+            
+            <p class="price">2999</p>
+            <button class="add-to-cart">Add To Cart</button>
+            <p>see more</p>
+        </div>
+      
+           
+       <div class="box7 box" data-id="7">
+            <h2>LaunchpadMin. 45% off | Deals on home essentials</h2>
+            <div class="box-img" > <img alt="Flowers and Fillers Ivory Dream Bunch Natural Dried Flower Bouquet | Eco-Friendly Dry Flowers for Vase Home Decoration, Office, Bedroom, Table Decor and Craft Items Corner (Without Vase Pot)" src="https://m.media-amazon.com/images/I/81PkQRDBRwL._AC_SY170_.jpg" data-a-hires="https://m.media-amazon.com/images/I/81PkQRDBRwL._AC_SY340_.jpg"> <img alt="Dreamy Walls 11'' Mini White Marble Vanity Tray for Cosmetics, Bathroom, Dressing, Kitchen | Easy Clean, Non-Slip Tray for Jewelry, Candles, Perfume &amp; Home Decor | 11x4x0.9 Inches, Natural, Rectangle" src="https://m.media-amazon.com/images/I/611hghXcGYL._AC_SY170_.jpg" data-a-hires="https://m.media-amazon.com/images/I/611hghXcGYL._AC_SY340_.jpg"> <img alt="Flowers and Fillers Natural Dried Flower for Vase Blush Breeze Bunch | Eco-Friendly Flowers for Home Decoration, Office, Bedroom, Table Decor and Art Craft Items Corner (Without Vase Pot)" src="https://m.media-amazon.com/images/I/81bhENWAlfL._AC_SY170_.jpg" data-a-hires="https://m.media-amazon.com/images/I/81bhENWAlfL._AC_SY340_.jpg"> <img alt="Flowers and Fillers Natural Dried Flower for Vase | Botanical Bliss Bunch Eco-Friendly Dry Flowers for Home Decoration, Office, Bedroom, Table Decor and Art Craft Items Corner (Without Vase Pot)" src="https://m.media-amazon.com/images/I/81DixAOClWL._AC_SY170_.jpg" data-a-hires="https://m.media-amazon.com/images/I/81DixAOClWL._AC_SY340_.jpg"></div>
+            
+            <p class="price">899</p>
+            <button class="add-to-cart">Add To Cart</button>
+            <p>see more</p>
+        </div>
+       <div class="box8 box" data-id="8">
+            <h2>Min.30% off | Top selections from Small Bu…</h2>
+            <div class="box-img" ><img alt="CREATIVE QUBE Engineered Wood Study &amp; Office Table 120x60x75cm | Matte Finish | Free Standing Compact Computer Desk with Drawer &amp; Cabinet | 1 Year Warranty | Brown Finish - Urban Teak" src="https://m.media-amazon.com/images/I/61RwNWomazL._AC_SY170_.jpg" data-a-hires="https://m.media-amazon.com/images/I/61RwNWomazL._AC_SY340_.jpg"> <img alt="CREATIVE QUBE 75cm Height Engineered Wood Ergonomic Prime Desk for Office Workstation for 2 | Laptop Desk, Gaming Setup, Work from Home, Hostel, Reception, Counter Table | Easy DIY Assembly- White" src="https://m.media-amazon.com/images/I/61FZbwg+DsL._AC_SY170_.jpg" data-a-hires="https://m.media-amazon.com/images/I/61FZbwg+DsL._AC_SY340_.jpg"> <img alt="KalaTree Table Runner for 6 Seater Dining Table Centre Table 60 inch Handmade Reversible Heat Resistant | Korai River Grass Zero Plastic Madurkathi Eco Friendly | Rustic Boho | Maroon White Runner" src="https://m.media-amazon.com/images/I/9169PLe3TyL._AC_SY170_.jpg" data-a-hires="https://m.media-amazon.com/images/I/9169PLe3TyL._AC_SY340_.jpg"> <img alt="The C A F Customized Stainless Steel LED Name Plate With House Number for Home Entrance, Flat, House Doors, Stylish, Outdoor &amp; Indoor, Waterproof (L18-04)" src="https://m.media-amazon.com/images/I/71OggCvNq+L._AC_SY170_.jpg" data-a-hires="https://m.media-amazon.com/images/I/71OggCvNq+L._AC_SY340_.jpg"></div>
+            
+            <p class="price">1799</p>
+            <button class="add-to-cart">Add To Cart</button>
+            <p>see more</p>
+        </div>
+        <div class="box9 box" data-id="9">
+            <h2>Shop 450+ gift card <br> brands</h2>
+            <div class="box-img" ><img alt="Amazon, Apple, and Doordash gift cards." src="https://images-na.ssl-images-amazon.com/images/G/01/GiftCards/2026/Q2/VX-26047/25kb_379x304_HP-SingleImageCard_Desktop_1x_v1._SY304_CB782958962_.jpg" class="_Zmx1a_fluidLandscapeImage_2euAK _Zmx1a_fluidImage_gTBjA" data-a-hires="https://images-na.ssl-images-amazon.com/images/G/01/GiftCards/2026/Q2/VX-26047/150kb_758x608_HP-SingleImageCard_Desktop_2x_v1._SY608_CB782958962_.jpg"></div>
+            
+            <button class="add-to-cart">Add To Cart</button>
+            <p>see more</p>
+            </div>
+            <div class="box10 box" data-id="10">
+            <h2>Kids' footwear: summer camp favorites</h2>
+            <div class="box-img" ><img alt="neon sneakers" src="https://images-na.ssl-images-amazon.com/images/G/01/AMAZON-FASHION/Zappos-FBA/Summershoechecklist/FBA-QUAD-CARD-KIDS-CAMP-GIRLS-SNEAKERS-DESKTOP-186x116._SY116_CB763330746_.jpg" class="_Zmx1a_fluidLandscapeImage_2euAK _Zmx1a_fluidImage_gTBjA" data-a-hires="https://images-na.ssl-images-amazon.com/images/G/01/AMAZON-FASHION/Zappos-FBA/Summershoechecklist/FBA-QUAD-CARD-KIDS-CAMP-GIRLS-SNEAKERS-DESKTOP-372x232._SY232_CB763330746_.jpg"> <img alt="new balance sneakers" src="https://images-na.ssl-images-amazon.com/images/G/01/AMAZON-FASHION/Zappos-FBA/Summershoechecklist/FBA-QUAD-CARD-KIDS-CAMP-BOYS-SNEAKERS-DESKTOP-186x116._SY116_CB763330746_.jpg" class="_Zmx1a_fluidLandscapeImage_2euAK _Zmx1a_fluidImage_gTBjA" data-a-hires="https://images-na.ssl-images-amazon.com/images/G/01/AMAZON-FASHION/Zappos-FBA/Summershoechecklist/FBA-QUAD-CARD-KIDS-CAMP-BOYS-SNEAKERS-DESKTOP-372x232._SY232_CB763330746_.jpg"> <img alt="clogs" src="https://images-na.ssl-images-amazon.com/images/G/01/AMAZON-FASHION/Zappos-FBA/Summershoechecklist/FBA-QUAD-CARD-KIDS-CAMP-BOYS-CLOGS-DESKTOP-186x116._SY116_CB763330746_.jpg" class="_Zmx1a_fluidLandscapeImage_2euAK _Zmx1a_fluidImage_gTBjA" data-a-hires="https://images-na.ssl-images-amazon.com/images/G/01/AMAZON-FASHION/Zappos-FBA/Summershoechecklist/FBA-QUAD-CARD-KIDS-CAMP-BOYS-CLOGS-DESKTOP-372x232._SY232_CB763330746_.jpg"> <img alt="girls clogs" src="https://images-na.ssl-images-amazon.com/images/G/01/AMAZON-FASHION/Zappos-FBA/Summershoechecklist/FBA-QUAD-CARD-KIDS-CAMP-GIRLS-CLOGS-DESKTOP-186x116._SY116_CB763330746_.jpg" class="_Zmx1a_fluidLandscapeImage_2euAK _Zmx1a_fluidImage_gTBjA" data-a-hires="https://images-na.ssl-images-amazon.com/images/G/01/AMAZON-FASHION/Zappos-FBA/Summershoechecklist/FBA-QUAD-CARD-KIDS-CAMP-GIRLS-CLOGS-DESKTOP-372x232._SY232_CB763330746_.jpg"></div>
+            
+            <p class="price">2499</p>
+            <button class="add-to-cart">Add To Cart</button>
+            <p>see more</p>
+        </div>
+        <div class="box11 box" data-id="11">
+            <h2>Explore premium by price</h2>
+            <div class="box-img" ><img alt="Under $50" src="https://images-na.ssl-images-amazon.com/images/G/01/melody/uploads/73796c89-aff3-42c1-9216-0dba971d74f5_MuseDesktop372X232_1X/26Flips_Summer_Premium_V8_26Flips_Premium_Summer_19613_Muse_Prod_melody_homepage_372x232_1X._SY116_CB784206971_.jpg" class="_Zmx1a_fluidLandscapeImage_2euAK _Zmx1a_fluidImage_gTBjA" data-a-hires="https://images-na.ssl-images-amazon.com/images/G/01/melody/uploads/73796c89-aff3-42c1-9216-0dba971d74f5_MuseDesktop372X232/26Flips_Summer_Premium_V8_26Flips_Premium_Summer_19613_Muse_Prod_melody_homepage_372x232_2X._SY232_CB784206968_.jpg"> <img alt="Under $100" src="https://images-na.ssl-images-amazon.com/images/G/01/melody/uploads/13190c34-14d6-46e8-90c8-445918a16fde_MuseDesktop372X232_1X/26Flips_Summer_Premium_V8_26Flips_Premium_Summer_19607_Muse_Prod_melody_homepage_372x232_1X._SY116_CB784206923_.jpg" class="_Zmx1a_fluidLandscapeImage_2euAK _Zmx1a_fluidImage_gTBjA" data-a-hires="https://images-na.ssl-images-amazon.com/images/G/01/melody/uploads/13190c34-14d6-46e8-90c8-445918a16fde_MuseDesktop372X232/26Flips_Summer_Premium_V8_26Flips_Premium_Summer_19607_Muse_Prod_melody_homepage_372x232_2X._SY232_CB784206920_.jpg"> <img alt="Under $150" src="https://images-na.ssl-images-amazon.com/images/G/01/melody/uploads/3e4b0d18-1dee-43de-9f32-b0f55b3bfd87_MuseDesktop372X232_1X/26Flips_Summer_Premium_V8_26Flips_Premium_Summer_19610_Muse_Prod_melody_homepage_372x232_1X._SY116_CB784206973_.jpg" class="_Zmx1a_fluidLandscapeImage_2euAK _Zmx1a_fluidImage_gTBjA" data-a-hires="https://images-na.ssl-images-amazon.com/images/G/01/melody/uploads/3e4b0d18-1dee-43de-9f32-b0f55b3bfd87_MuseDesktop372X232/26Flips_Summer_Premium_V8_26Flips_Premium_Summer_19610_Muse_Prod_melody_homepage_372x232_2X._SY232_CB784206946_.jpg"> <img alt="Under $200" src="https://images-na.ssl-images-amazon.com/images/G/01/melody/uploads/29890197-6d9a-4239-9962-150300c331ed_MuseDesktop372X232_1X/26Flips_Summer_Premium_V8_26Flips_Premium_Summer_19611_Muse_Prod_melody_homepage_372x232_1X._SY116_CB784206974_.jpg" class="_Zmx1a_fluidLandscapeImage_2euAK _Zmx1a_fluidImage_gTBjA" data-a-hires="https://images-na.ssl-images-amazon.com/images/G/01/melody/uploads/29890197-6d9a-4239-9962-150300c331ed_MuseDesktop372X232/26Flips_Summer_Premium_V8_26Flips_Premium_Summer_19611_Muse_Prod_melody_homepage_372x232_2X._SY232_CB784206975_.jpg"></div>
+    
+            <p class="price">399</p>
+            <button class="add-to-cart">Add To Cart</button>
+            <p>see more</p>
+            </div>
+            <div class="box12 box" data-id="12">
+            <h2>Min.30% off | Top selections from Small Bu…</h2>
+            <div class="box-img" ><img alt="Top sellers on Shopbop" src="https://images-na.ssl-images-amazon.com/images/G/01/softlines/shopbop/ingress/2026/may/TopSellers/mp_20260522_ingress_desktop_CAT_TopSellers_1x._SY304_CB761462252_.jpg" class="_Zmx1a_fluidLandscapeImage_2euAK _Zmx1a_fluidImage_gTBjA" data-a-hires="https://images-na.ssl-images-amazon.com/images/G/01/softlines/shopbop/ingress/2026/may/TopSellers/mp_20260522_ingress_desktop_CAT_TopSellers._SY608_CB761462252_.jpg"></div>
+        
+            <p class="price">1699</p>
+            <button class="add-to-cart">Add To Cart</button>
+            <p>see more</p>
+            </div>
+            </div>
+
+        <footer>
+            <div class="foot-panel1">
+                Back to top
+            </div>
+            <div class="foot-panel2">
+               <ul>
+                <p>Get to know us</p>
+                <a>Careers</a>
+                 <a>Blog</a>
+                  <a>About Amazon</a>
+                   <a>Amazon Devices</a>
+                    <a>Amazon Science</a>
+               </ul> 
+               <ul>
+                <p>Connect with us</p>
+                <a>Instagram</a>
+                 <a>Twitter</a>
+                  <a>Facebook</a>
+                   
+               </ul> 
+               <ul>
+                <p>Make money with us</p>
+                <a>Sell on Amazon</a>
+                 <a>Protect and Build your brand</a>
+                  <a>Amazon global selling</a>
+                   <a>Supply to Amazon</a>
+                    <a>Became a Affiliate</a>
+               </ul> 
+               <ul>
+                <p>Let us help you</p>
+                <a>Your Account</a>
+                 <a>Return Center</a>
+                  <a>Recalls and Product safety alerts</a>
+                   <a>100% purchase protection </a>
+                    <a>Help</a>
+               </ul> 
+            </div>
+            <div class="foot-panel3">
+                <div class="logo"></div>
+            </div>
+            <div class="foot-panel4">
+                <div class="pages">
+                    <a>Condition Of Use</a>
+                    <a>Privacy Notice</a>
+                    <a>Your Ads Privacy Choices</a>
+                </div>
+                <div class="copyright">
+                    © 1996-2026, Amazon.com, Inc. or its affiliates
+                </div>
+            </div>
+        </footer>
+<script src="script.js"></script>
+</body>
+</html>
+
+      
+    
