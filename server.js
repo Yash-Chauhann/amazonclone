@@ -10,6 +10,12 @@ const cors = require("cors");
 
 const app = express();
 
+import cors from "cors"
+
+app.use(cors({
+  origin: "*"
+}))
+
 // DB CONNECT (yahin direct)
 
 mongoose.connect(process.env.MONGO_URL)
