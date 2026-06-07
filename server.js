@@ -31,8 +31,11 @@ app.use("/auth", authRoutes);
 app.use("/order", orderRoutes);
 
 // test route
-app.get("/", (req, res) => {
-  res.send("API Running");
+app.get("/api/products", (req, res) => {
+  res.json([
+    { id: 1, name: "iPhone", price: 999 },
+    { id: 2, name: "Laptop", price: 1999 }
+  ]);
 });
 
 const PORT = process.env.PORT || 5000;
