@@ -6,6 +6,7 @@ dns.setDefaultResultOrder("ipv4first");
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const Product = require("./models/Product");
 
 const app = express();
 
@@ -26,19 +27,19 @@ const cartRoutes = require("./routes/cart");
 const authRoutes = require("./routes/auth");
 const orderRoutes = require("./routes/order");
 
+
 app.use("/cart", cartRoutes);
 app.use("/auth", authRoutes);
 app.use("/order", orderRoutes);
 
 // test route
-app.get("/", (req, res) => {
-  res.send("API Running");
-});
-app.get("/api/products", (req, res) => {
-  res.json([
-    { id: 1, name: "iPhone", price: 999 },
-    { id: 2, name: "Laptop", price: 1999 }
-  ]);
+app.get("/api/products", async (req, res) => {
+  try {
+    const products = await Product.find();
+    res.json(products);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
 });
 
 const PORT = process.env.PORT || 5000;
