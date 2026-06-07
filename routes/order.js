@@ -39,7 +39,17 @@ router.post("/place", auth, async (req, res) => {
       items: cartItems,
       totalAmount: total,
     });
+  router.get("/my", auth, async (req, res) => {
+  try {
+    const userId = req.user.id;
 
+    const orders = await Order.find({ userId });
+
+    res.json(orders);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
     // ✅ CLEAR CART
     await Cart.deleteMany({ userId });
 
