@@ -1,61 +1,39 @@
-import axios from "axios"
-import { useEffect, useState } from "react"
-
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    axios.get("https://amazonclone-htzt.onrender.com/api/products")
-      .then(res => {
-        console.log("Products:", res.data)
+    axios
+      .get("https://amazonclone-htzt.onrender.com/api/products")
+      .then((res) => {
+        setProducts(res.data);
       })
-      .catch(err => {
-        console.log("Error:", err)
-      })
-  }, [])
+      .catch((err) => {
+        console.log("Error:", err);
+      });
+  }, []);
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
+    <div style={{ padding: "20px" }}>
+      <h1>Amazon Clone Products</h1>
 
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
+      {products.map((product) => (
+        <div
+          key={product.id}
+          style={{
+            border: "1px solid #ccc",
+            margin: "10px",
+            padding: "10px",
+          }}
         >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <h2>Documentation</h2>
+          <h3>{product.name}</h3>
+          <p>₹{product.price}</p>
         </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+      ))}
+    </div>
+  );
 }
 
-export default App
+export default App;
