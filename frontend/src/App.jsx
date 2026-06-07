@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useCart } from "./context/CartContext";
 import Cart from "./Cart";
+import Checkout from "./Checkout";
 function App() {
   const [products, setProducts] = useState([]);
   const [showCart, setShowCart] = useState(false);
+  const [showCheckout, setShowCheckout] = useState(false);
    const { addToCart, cart } = useCart(); 
 
   useEffect(() => {
@@ -18,7 +20,9 @@ function App() {
       });
   }, []);
 
-  return showCart ? (
+  return showCheckout ? (
+  <Checkout />
+) : showCart ? (
   <Cart />
 ) : (
   <div style={{ padding: "20px" }}>
@@ -26,6 +30,10 @@ function App() {
 
     <button onClick={() => setShowCart(!showCart)}>
       Go to Cart 🛒
+    </button>
+
+    <button onClick={() => setShowCheckout(true)}>
+      Checkout 💳
     </button>
 
     <h2>Cart Items: {cart.length}</h2>
@@ -40,7 +48,6 @@ function App() {
       {products.map((product) => (
         <div key={product._id}>
           <h3>{product.name}</h3>
-
           <p>₹{product.price}</p>
 
           <button onClick={() => addToCart(product)}>
