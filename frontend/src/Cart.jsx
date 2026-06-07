@@ -1,7 +1,7 @@
 import { useCart } from "./context/CartContext";
 
 function Cart() {
-  const { cart, removeFromCart } = useCart();
+  const { cart, removeFromCart , getTotalPrice } = useCart();
 
   return (
     <div style={{ padding: "20px" }}>
@@ -23,6 +23,10 @@ function Cart() {
               borderRadius: "10px",
             }}
           >
+                <h2 style={{ marginTop: "20px" }}>
+  Total Price: ₹{getTotalPrice()}
+</h2>
+
             <div>
               <h3>{item.name}</h3>
               <p>₹{item.price}</p>
