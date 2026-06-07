@@ -79,7 +79,9 @@ function App() {
             <h3>{product.name || "No Name"}</h3>
 
             {/* ✅ FIXED PRICE (NO NaN ISSUE) */}
-            <p>₹{Number(product.price) || 0}</p>
+           const price = Number(product.price);
+
+<p>₹{isNaN(price) ? 0 : price}</p>
 
             <button
               onClick={() => addToCart(product)}
