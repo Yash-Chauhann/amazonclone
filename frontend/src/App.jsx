@@ -10,7 +10,7 @@ function App() {
   const [count, setCount] = useState(0)
 
   useEffect(() => {
-    axios.get("https://amazonclone-htzt.onrender.com")
+    axios.get("https://amazonclone-htzt.onrender.com/api/products")
       .then(res => {
         console.log("Products:", res.data)
       })
