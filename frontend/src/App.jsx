@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-
+import { useCart } from "./context/CartContext";
 function App() {
   const [products, setProducts] = useState([]);
+   const { addToCart, cart } = useCart(); 
 
   useEffect(() => {
     axios
@@ -18,7 +19,9 @@ function App() {
   return (
   <div style={{ padding: "20px" }}>
     <h1>Amazon Clone</h1>
-
+<h2 style={{ marginBottom: "20px" }}>
+  🛒 Cart Items: {cart.length}
+</h2>
     <div
       style={{
         display: "grid",
@@ -60,6 +63,7 @@ function App() {
           <p>{product.description}</p>
 
           <button
+          onClick={() => addToCart(product)}
             style={{
               width: "100%",
               padding: "10px",
@@ -67,6 +71,7 @@ function App() {
               border: "none",
               borderRadius: "20px",
               cursor: "pointer",
+              fontWeight: "bold",
             }}
           >
             Add to Cart
