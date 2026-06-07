@@ -21,7 +21,7 @@ function App() {
 
       {products.map((product) => (
         <div
-          key={product.id}
+          key={product._id}
           style={{
             border: "1px solid #ccc",
             margin: "10px",
