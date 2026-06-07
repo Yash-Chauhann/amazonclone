@@ -8,13 +8,11 @@ export const CartProvider = ({ children }) => {
 
   const API = "https://amazonclone-htzt.onrender.com";
 
-  // ======================
-  // SAFE TOKEN GETTER
-  // ======================
+  // ✅ SAFE TOKEN GETTER
   const getToken = () => {
     const token = localStorage.getItem("token");
-    if (!token) {
-      console.log("❌ No token found - user not logged in");
+    if (!token || token === "undefined") {
+      console.log("❌ No valid token found");
       return null;
     }
     return token;
@@ -36,10 +34,7 @@ export const CartProvider = ({ children }) => {
 
       setCart(res.data.cart || res.data || []);
     } catch (err) {
-      console.log(
-        "Fetch cart error:",
-        err.response?.data || err.message
-      );
+      console.log("Fetch Cart Error:", err.response?.data || err.message);
     }
   };
 
@@ -70,15 +65,12 @@ export const CartProvider = ({ children }) => {
 
       setCart(res.data.cart || res.data || []);
     } catch (err) {
-      console.log(
-        "Add to cart error:",
-        err.response?.data || err.message
-      );
+      console.log("Add To Cart Error:", err.response?.data || err.message);
     }
   };
 
   // ======================
-  // REMOVE ONE ITEM
+  // REMOVE ONE
   // ======================
   const removeOne = async (id) => {
     try {
@@ -93,12 +85,12 @@ export const CartProvider = ({ children }) => {
 
       fetchCart();
     } catch (err) {
-      console.log("Remove one error:", err.message);
+      console.log(err.message);
     }
   };
 
   // ======================
-  // REMOVE FROM CART
+  // REMOVE ALL
   // ======================
   const removeFromCart = async (id) => {
     try {
@@ -113,7 +105,7 @@ export const CartProvider = ({ children }) => {
 
       fetchCart();
     } catch (err) {
-      console.log("Remove error:", err.message);
+      console.log(err.message);
     }
   };
 
@@ -121,10 +113,7 @@ export const CartProvider = ({ children }) => {
   // TOTAL PRICE
   // ======================
   const getTotalPrice = () => {
-    return cart.reduce(
-      (total, item) => total + item.price * item.qty,
-      0
-    );
+    return cart.reduce((total, item) => total + item.price * item.qty, 0);
   };
 
   // ======================

@@ -15,11 +15,23 @@ function Login() {
         }
       );
 
-      localStorage.setItem("token", res.data.token);
+      console.log("LOGIN RESPONSE:", res.data);
+
+      const token = res.data.token;
+
+      // ✅ SAFE CHECK
+      if (!token) {
+        alert("Token not received from backend");
+        return;
+      }
+
+      localStorage.setItem("token", token);
+
+      console.log("TOKEN SAVED:", localStorage.getItem("token"));
 
       alert("Login Successful 🎉");
     } catch (err) {
-      console.log(err);
+      console.log("Login Error:", err.response?.data || err.message);
       alert("Login Failed");
     }
   };
