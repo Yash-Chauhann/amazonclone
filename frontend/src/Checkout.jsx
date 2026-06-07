@@ -1,10 +1,32 @@
 import { useCart } from "./context/CartContext";
+import axios from "axios";
 
 function Checkout() {
   const { cart, getTotalPrice } = useCart();
 
-  const placeOrder = () => {
-    alert("Order Placed Successfully 🎉");
+  // ✅ function बाहर रखना है
+  const placeOrder = async () => {
+    const token = localStorage.getItem("token");
+
+    try {
+      const res = await axios.post(
+        "https://amazonclone-htzt.onrender.com/order/create",
+        {
+          items: cart,
+          totalAmount: getTotalPrice(),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      alert("Order Placed 🎉");
+      console.log(res.data);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
