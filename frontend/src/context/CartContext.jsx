@@ -6,81 +6,115 @@ const CartContext = createContext();
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
 
+  const API = "https://amazonclone-htzt.onrender.com";
+
+  // ======================
+  // SAFE TOKEN GETTER
+  // ======================
+  const getToken = () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.log("❌ No token found - user not logged in");
+      return null;
+    }
+    return token;
+  };
+
   // ======================
   // FETCH CART
   // ======================
   const fetchCart = async () => {
-    const token = localStorage.getItem("token");
+    try {
+      const token = getToken();
+      if (!token) return;
 
-    const res = await axios.get(
-      "https://amazonclone-htzt.onrender.com/cart",
-      {
+      const res = await axios.get(`${API}/cart`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }
-    );
+      });
 
-    setCart(res.data);
+      setCart(res.data.cart || res.data || []);
+    } catch (err) {
+      console.log(
+        "Fetch cart error:",
+        err.response?.data || err.message
+      );
+    }
   };
 
   // ======================
-  // ADD TO CART (BACKEND)
+  // ADD TO CART
   // ======================
   const addToCart = async (product) => {
-    const token = localStorage.getItem("token");
-
-    const res = await axios.post(
-      "https://amazonclone-htzt.onrender.com/cart/add",
-      {
-        name: product.name,
-        price: product.price,
-        qty: 1,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+    try {
+      const token = getToken();
+      if (!token) {
+        alert("Please login first");
+        return;
       }
-    );
 
-    setCart(res.data);
+      const res = await axios.post(
+        `${API}/cart/add`,
+        {
+          name: product.name,
+          price: product.price,
+          qty: 1,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setCart(res.data.cart || res.data || []);
+    } catch (err) {
+      console.log(
+        "Add to cart error:",
+        err.response?.data || err.message
+      );
+    }
   };
 
   // ======================
   // REMOVE ONE ITEM
   // ======================
   const removeOne = async (id) => {
-    const token = localStorage.getItem("token");
+    try {
+      const token = getToken();
+      if (!token) return;
 
-    await axios.delete(
-      `https://amazonclone-htzt.onrender.com/cart/${id}`,
-      {
+      await axios.delete(`${API}/cart/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }
-    );
+      });
 
-    fetchCart();
+      fetchCart();
+    } catch (err) {
+      console.log("Remove one error:", err.message);
+    }
   };
 
   // ======================
   // REMOVE FROM CART
   // ======================
   const removeFromCart = async (id) => {
-    const token = localStorage.getItem("token");
+    try {
+      const token = getToken();
+      if (!token) return;
 
-    await axios.delete(
-      `https://amazonclone-htzt.onrender.com/cart/${id}`,
-      {
+      await axios.delete(`${API}/cart/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      }
-    );
+      });
 
-    fetchCart();
+      fetchCart();
+    } catch (err) {
+      console.log("Remove error:", err.message);
+    }
   };
 
   // ======================
@@ -97,7 +131,8 @@ export const CartProvider = ({ children }) => {
   // AUTO LOAD CART
   // ======================
   useEffect(() => {
-    fetchCart();
+    const token = getToken();
+    if (token) fetchCart();
   }, []);
 
   return (
