@@ -22,7 +22,7 @@ function Checkout() {
       }
 
       const res = await axios.post(
-        "https://amazonclone-htzt.onrender.com/orders/place", // ⚠️ confirm backend route
+        "https://amazonclone-htzt.onrender.com/order/place", // ⚠️ confirm backend route
         {
           items: cart,
           total: Number(getTotalPrice()) || 0,
