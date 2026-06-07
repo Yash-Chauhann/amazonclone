@@ -41,6 +41,9 @@ app.get("/api/products", async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 });
+app.get("/test", (req, res) => {
+  res.json({ message: "Server working" });
+});
 
 const PORT = process.env.PORT || 5000;
 
