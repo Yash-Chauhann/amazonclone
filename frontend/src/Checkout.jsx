@@ -1,19 +1,31 @@
-import { useCart } from "./context/CartContext";
 import axios from "axios";
+import { useCart } from "./context/CartContext";
 
 function Checkout() {
   const { cart, getTotalPrice } = useCart();
 
-  // ✅ function बाहर रखना है
   const placeOrder = async () => {
-    const token = localStorage.getItem("token");
-
     try {
+      const token = localStorage.getItem("token");
+
+      console.log("TOKEN:", token);
+      console.log("CART:", cart);
+
+      if (!token || token === "undefined") {
+        alert("Please login first");
+        return;
+      }
+
+      if (!cart || cart.length === 0) {
+        alert("Cart is empty");
+        return;
+      }
+
       const res = await axios.post(
-        "https://amazonclone-htzt.onrender.com/order/create",
+        "https://amazonclone-htzt.onrender.com/orders", // ⚠️ confirm backend route
         {
           items: cart,
-          totalAmount: getTotalPrice(),
+          total: Number(getTotalPrice()) || 0,
         },
         {
           headers: {
@@ -22,47 +34,42 @@ function Checkout() {
         }
       );
 
-      alert("Order Placed 🎉");
-      console.log(res.data);
+      console.log("ORDER RESPONSE:", res.data);
+
+      alert("Order Placed Successfully 🎉");
     } catch (err) {
-      console.log(err);
+      console.log("ORDER ERROR:", err.response?.data || err.message);
+      alert("Order Failed");
     }
   };
 
   return (
     <div style={{ padding: "20px" }}>
-      <h1>🧾 Checkout</h1>
+      <h2>Checkout</h2>
 
-      {cart.length === 0 ? (
-        <h3>No items to checkout</h3>
-      ) : (
-        <>
-          {cart.map((item) => (
-            <div key={item._id} style={{ marginBottom: "10px" }}>
-              <h3>{item.name}</h3>
-              <p>Qty: {item.quantity}</p>
-              <p>₹{item.price * item.quantity}</p>
-            </div>
-          ))}
+      <h3>Total: ₹{Number(getTotalPrice()) || 0}</h3>
 
-          <h2>Total: ₹{getTotalPrice()}</h2>
+      <button
+        onClick={placeOrder}
+        style={{
+          background: "green",
+          color: "white",
+          padding: "10px 15px",
+          border: "none",
+          borderRadius: "8px",
+          cursor: "pointer",
+        }}
+      >
+        Place Order 🛒
+      </button>
 
-          <button
-            onClick={placeOrder}
-            style={{
-              background: "green",
-              color: "white",
-              padding: "10px 20px",
-              border: "none",
-              borderRadius: "5px",
-              marginTop: "20px",
-              cursor: "pointer",
-            }}
-          >
-            Place Order
-          </button>
-        </>
-      )}
+      <div style={{ marginTop: "20px" }}>
+        {cart.map((item, i) => (
+          <div key={i}>
+            {item.name} - ₹{Number(item.price) || 0} x {item.qty || 1}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

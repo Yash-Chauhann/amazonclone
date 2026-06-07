@@ -23,22 +23,22 @@ function App() {
   useEffect(() => {
     axios
       .get("https://amazonclone-htzt.onrender.com/api/products")
-      .then((res) => setProducts(res.data))
+      .then((res) => {
+        console.log("PRODUCT API RESPONSE:", res.data);
+        setProducts(res.data || []);
+      })
       .catch((err) => console.log("Error:", err));
   }, []);
 
   // ======================
   // UI FLOW CONTROL
   // ======================
-  return showLogin ? (
-    <Login />
-  ) : showCheckout ? (
-    <Checkout />
-  ) : showCart ? (
-    <Cart />
-  ) : showOrders ? (
-    <MyOrders />
-  ) : (
+  if (showLogin) return <Login />;
+  if (showCheckout) return <Checkout />;
+  if (showCart) return <Cart />;
+  if (showOrders) return <MyOrders />;
+
+  return (
     <div style={{ padding: "20px" }}>
       <h1>🛒 Amazon Clone</h1>
 
@@ -76,8 +76,10 @@ function App() {
               borderRadius: "10px",
             }}
           >
-            <h3>{product.name}</h3>
-            <p>₹{product.price}</p>
+            <h3>{product.name || "No Name"}</h3>
+
+            {/* ✅ FIXED PRICE (NO NaN ISSUE) */}
+            <p>₹{Number(product.price) || 0}</p>
 
             <button
               onClick={() => addToCart(product)}
