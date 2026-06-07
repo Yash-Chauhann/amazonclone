@@ -1,7 +1,7 @@
 import { useCart } from "./context/CartContext";
 
 function Cart() {
-  const { cart, removeFromCart, getTotalPrice } = useCart();
+  const { cart, removeFromCart, getTotalPrice, removeOne, addToCart } = useCart();
 
   return (
     <div style={{ padding: "20px" }}>
@@ -26,7 +26,13 @@ function Cart() {
             >
               <div>
                 <h3>{item.name}</h3>
-                <p>₹{item.price}</p>
+
+                <p>Qty: {item.quantity}</p>
+
+                <button onClick={() => removeOne(item._id)}>-</button>
+                <button onClick={() => addToCart(item)}>+</button>
+
+                <p>₹{item.price * item.quantity}</p>
               </div>
 
               <button
@@ -44,7 +50,6 @@ function Cart() {
             </div>
           ))}
 
-          {/* ✅ ONLY ONCE (OUTSIDE MAP) */}
           <h2 style={{ marginTop: "20px" }}>
             Total Price: ₹{getTotalPrice()}
           </h2>
