@@ -14,20 +14,27 @@ function App() {
   const [showOrders, setShowOrders] = useState(false);
 
   const [products, setProducts] = useState([]);
-
   const { addToCart, cart } = useCart();
 
   // ======================
   // FETCH PRODUCTS
   // ======================
   useEffect(() => {
-    axios
-      .get("https://amazonclone-htzt.onrender.com/api/products")
-      .then((res) => {
+    const fetchProducts = async () => {
+      try {
+        const res = await axios.get(
+          "https://amazonclone-htzt.onrender.com/api/products"
+        );
+
         console.log("PRODUCT API RESPONSE:", res.data);
-        setProducts(res.data || []);
-      })
-      .catch((err) => console.log("Error:", err));
+
+        setProducts(Array.isArray(res.data) ? res.data : []);
+      } catch (err) {
+        console.log("Error fetching products:", err);
+      }
+    };
+
+    fetchProducts();
   }, []);
 
   // ======================
@@ -47,16 +54,12 @@ function App() {
         <button onClick={() => setShowLogin(true)}>Login 🔐</button>
 
         <button onClick={() => setShowCart(true)}>
-          Cart 🛒 ({cart.length})
+          Cart 🛒 ({cart?.length || 0})
         </button>
 
-        <button onClick={() => setShowCheckout(true)}>
-          Checkout 💳
-        </button>
+        <button onClick={() => setShowCheckout(true)}>Checkout 💳</button>
 
-        <button onClick={() => setShowOrders(true)}>
-          My Orders 📦
-        </button>
+        <button onClick={() => setShowOrders(true)}>My Orders 📦</button>
       </div>
 
       {/* PRODUCTS GRID */}
@@ -67,37 +70,38 @@ function App() {
           gap: "20px",
         }}
       >
-        {products.map((product) => (
-          <div
-            key={product._id}
-            style={{
-              border: "1px solid #ddd",
-              padding: "10px",
-              borderRadius: "10px",
-            }}
-          >
-            <h3>{product.name || "No Name"}</h3>
+        {products.map((product) => {
+          const price = Number(product?.price);
 
-            {/* ✅ FIXED PRICE (NO NaN ISSUE) */}
-           const price = Number(product.price);
-
-<p>₹{isNaN(price) ? 0 : price}</p>
-
-            <button
-              onClick={() => addToCart(product)}
+          return (
+            <div
+              key={product?._id}
               style={{
-                background: "#ffd814",
-                border: "none",
-                padding: "8px 12px",
-                borderRadius: "20px",
-                cursor: "pointer",
-                fontWeight: "bold",
+                border: "1px solid #ddd",
+                padding: "10px",
+                borderRadius: "10px",
               }}
             >
-              Add to Cart
-            </button>
-          </div>
-        ))}
+              <h3>{product?.name || "No Name"}</h3>
+
+              <p>₹{isNaN(price) ? 0 : price}</p>
+
+              <button
+                onClick={() => addToCart(product)}
+                style={{
+                  background: "#ffd814",
+                  border: "none",
+                  padding: "8px 12px",
+                  borderRadius: "20px",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                }}
+              >
+                Add to Cart
+              </button>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
