@@ -83,8 +83,12 @@ function App() {
               }}
             >
               <h3>{product?.name || "No Name"}</h3>
-
-              <p>₹{isNaN(price) ? 0 : price}</p>
+<p>
+  ₹{Number.isFinite(parseFloat(product?.price)) 
+    ? parseFloat(product.price) 
+    : 0}
+</p>
+              
 
               <button
                 onClick={() => addToCart(product)}
