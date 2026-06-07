@@ -31,6 +31,9 @@ app.use("/auth", authRoutes);
 app.use("/order", orderRoutes);
 
 // test route
+app.get("/", (req, res) => {
+  res.send("API Running");
+});
 app.get("/api/products", (req, res) => {
   res.json([
     { id: 1, name: "iPhone", price: 999 },
