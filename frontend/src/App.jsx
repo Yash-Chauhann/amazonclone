@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useCart } from "./context/CartContext";
+import Cart from "./Cart";
 function App() {
   const [products, setProducts] = useState([]);
+  const [showCart, setShowCart] = useState(false);
    const { addToCart, cart } = useCart(); 
 
   useEffect(() => {
@@ -16,12 +18,18 @@ function App() {
       });
   }, []);
 
-  return (
+  return showCart ? (
+  <Cart />
+) : (
   <div style={{ padding: "20px" }}>
     <h1>Amazon Clone</h1>
-<h2 style={{ marginBottom: "20px" }}>
-  🛒 Cart Items: {cart.length}
-</h2>
+
+    <button onClick={() => setShowCart(!showCart)}>
+      Go to Cart 🛒
+    </button>
+
+    <h2>Cart Items: {cart.length}</h2>
+
     <div
       style={{
         display: "grid",
@@ -30,50 +38,12 @@ function App() {
       }}
     >
       {products.map((product) => (
-        <div
-          key={product._id}
-          style={{
-            border: "1px solid #ddd",
-            borderRadius: "10px",
-            padding: "15px",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-          }}
-        >
-          <img
-            src={
-              product.image ||
-              "https://via.placeholder.com/200x200?text=Product"
-            }
-            alt={product.name}
-            style={{
-              width: "100%",
-              height: "200px",
-              objectFit: "cover",
-            }}
-          />
-
+        <div key={product._id}>
           <h3>{product.name}</h3>
 
-          <p>
-            <strong>₹{product.price}</strong>
-          </p>
+          <p>₹{product.price}</p>
 
-          <p>{product.category}</p>
-
-          <p>{product.description}</p>
-
-          <button
-          onClick={() => addToCart(product)}
-            style={{
-              width: "100%",
-              padding: "10px",
-              background: "#ffd814",
-              border: "none",
-              borderRadius: "20px",
-              cursor: "pointer",
-              fontWeight: "bold",
-            }}
-          >
+          <button onClick={() => addToCart(product)}>
             Add to Cart
           </button>
         </div>
