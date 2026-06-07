@@ -3,9 +3,12 @@ import axios from "axios";
 import { useCart } from "./context/CartContext";
 import Cart from "./Cart";
 import Checkout from "./Checkout";
+import Login from "./Login";
 function App() {
+   const [showLogin, setShowLogin] = useState(false);
   const [products, setProducts] = useState([]);
   const [showCart, setShowCart] = useState(false);
+ 
   const [showCheckout, setShowCheckout] = useState(false);
    const { addToCart, cart } = useCart(); 
 
@@ -20,7 +23,9 @@ function App() {
       });
   }, []);
 
-  return showCheckout ? (
+ return showLogin ? (
+  <Login />
+) : showCheckout ? (
   <Checkout />
 ) : showCart ? (
   <Cart />
@@ -28,8 +33,12 @@ function App() {
   <div style={{ padding: "20px" }}>
     <h1>Amazon Clone</h1>
 
+    <button onClick={() => setShowLogin(true)}>
+      Login 🔐
+    </button>
+
     <button onClick={() => setShowCart(!showCart)}>
-      Go to Cart 🛒
+      Cart 🛒
     </button>
 
     <button onClick={() => setShowCheckout(true)}>
