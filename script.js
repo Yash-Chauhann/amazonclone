@@ -39,7 +39,7 @@ function renderCart() {
     let total = 0;
     let totalItems = 0;
 
-    cartItems.forEach((item, index) => {
+    cartItems.forEach((item) => {
 
         const price = Number(item.price) || 0;
         const qty = item.qty || 1;
@@ -53,15 +53,15 @@ function renderCart() {
             <div style="margin-bottom:10px;">
                 🛒 ${item.name} - ₹${price}
 
-                <button class="qty-btn" data-action="minus" data-index="${index}">➖</button>
+                <button class="qty-btn" data-action="minus" data-id="${item._id}">➖</button>
 
                 <span> ${qty} </span>
 
-                <button class="qty-btn" data-action="plus" data-index="${index}">➕</button>
+                <button class="qty-btn" data-action="plus" data-id="${item._id}">➕</button>
 
                 = ₹${itemTotal}
 
-                <button class="remove-btn" data-index="${index}">❌</button>
+                <button class="remove-btn" data-id="${item._id}">❌</button>
             </div>
         `;
     });
@@ -77,69 +77,69 @@ function attachEvents() {
 
     // REMOVE ITEM
     document.querySelectorAll(".remove-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
+        btn.addEventListener("click", async () => {
 
-            const item = cartItems[btn.dataset.index];
+            const id = btn.dataset.id;
 
-            fetch(`${API_BASE}/cart/remove`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": token
-                },
-                body: JSON.stringify({ name: item.name })
-            })
-            .then(res => res.json())
-            .then(data => {
+            try {
+                const res = await fetch(`${API_BASE}/cart/remove`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "authorization": token
+                    },
+                    body: JSON.stringify({ id })
+                });
+
+                const data = await res.json();
                 cartItems = data;
                 renderCart();
-            })
-            .catch(err => console.log("Remove error:", err));
+
+            } catch (err) {
+                console.log("Remove error:", err);
+            }
         });
     });
 
-    // QTY UPDATE
+    // QTY UPDATE (FINAL FIX)
     document.querySelectorAll(".qty-btn").forEach(btn => {
-        btn.addEventListener("click", () => {
+        btn.addEventListener("click", async () => {
 
-            const item = cartItems[btn.dataset.index];
+            const id = btn.dataset.id;
             const action = btn.dataset.action;
+
+            const item = cartItems.find(i => i._id === id);
+
+            if (!item) return;
 
             let newQty = item.qty || 1;
 
             if (action === "plus") newQty++;
             if (action === "minus") newQty--;
 
-            // REMOVE FIRST
-            fetch(`${API_BASE}/cart/remove`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": token
-                },
-                body: JSON.stringify({ name: item.name })
-            })
-            .then(() => {
-                // ADD UPDATED ITEM
-                return fetch(`${API_BASE}/cart`, {
+            if (newQty <= 0) return;
+
+            try {
+                const res = await fetch(`${API_BASE}/cart/update`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                         "authorization": token
                     },
                     body: JSON.stringify({
-                        name: item.name,
-                        price: item.price,
+                        id,
                         qty: newQty
                     })
                 });
-            })
-            .then(res => res.json())
-            .then(data => {
+
+                const data = await res.json();
+
                 cartItems = data;
                 renderCart();
-            })
-            .catch(err => console.log("Qty update error:", err));
+
+            } catch (err) {
+                console.log("Qty update error:", err);
+            }
         });
     });
 }
@@ -203,4 +203,4 @@ function logout() {
 // ================= INIT =================
 loadCart();
 
-console.log("🚀 Cart system loaded successfully");
+console.log("🚀 Cart system fully fixed & stable");
