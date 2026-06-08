@@ -88,4 +88,29 @@ router.delete("/:id", auth, async (req, res) => {
   }
 });
 
+router.put("/decrease/:id", auth, async (req, res) => {
+  try {
+    const item = await Cart.findOne({
+      _id: req.params.id,
+      userId: req.user.id,
+    });
+
+    if (!item) {
+      return res.status(404).json({ error: "Item not found" });
+    }
+
+    if (item.qty > 1) {
+      item.qty -= 1;
+      await item.save();
+    } else {
+      await Cart.findByIdAndDelete(item._id);
+    }
+
+    const cart = await Cart.find({ userId: req.user.id });
+    res.json(cart);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;
