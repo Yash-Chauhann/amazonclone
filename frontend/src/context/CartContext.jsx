@@ -73,22 +73,28 @@ export const CartProvider = ({ children }) => {
   // REMOVE ONE
   // ======================
   const removeOne = async (id) => {
-    try {
-      const token = getToken();
-      if (!token) return;
+  try {
+    const token = getToken();
+    if (!token) return;
 
-      await axios.delete(`${API}/cart/decrease/${id}`, {
+    await axios.put(
+      `${API}/cart/decrease/${id}`,
+      {},
+      {
         headers: {
           Authorization: `Bearer ${token}`,
         },
-      });
+      }
+    );
 
-      fetchCart();
-    } catch (err) {
-      console.log(err.message);
-    }
-  };
-
+    fetchCart();
+  } catch (err) {
+    console.log(
+      "Decrease Error:",
+      err.response?.data || err.message
+    );
+  }
+};
   // ======================
   // REMOVE ALL
   // ======================
