@@ -18,18 +18,28 @@ const cartButtons = document.querySelectorAll(".add-to-cart");
 
 // ================= LOAD CART =================
 function loadCart() {
-    fetch(`${API_BASE}/cart`, {
-        headers: {
-            "Content-Type": "application/json",
-            "authorization": `Bearer ${token}`
-        }
-    })
-    .then(res => res.json())
-    .then(data => {
-        cartItems = data;
-        renderCart();
-    })
-    .catch(err => console.log("Cart load error:", err));
+  fetch(`${API_BASE}/cart`, {
+    headers: {
+      "Content-Type": "application/json",
+      "authorization": `Bearer ${token}`
+    }
+  })
+  .then(res => res.json())
+  .then(data => {
+
+    console.log("Cart API Response:", data);
+
+    if (!Array.isArray(data)) {
+      console.log("Cart error:", data);
+      cartItems = [];
+      renderCart();
+      return;
+    }
+
+    cartItems = data;
+    renderCart();
+  })
+  .catch(err => console.log("Cart load error:", err));
 }
 
 // ================= RENDER CART =================
