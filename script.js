@@ -34,6 +34,8 @@ function loadCart() {
 
 // ================= RENDER CART =================
 function renderCart() {
+    console.log("Cart Data:", cartItems);
+
     cartList.innerHTML = "";
 
     let total = 0;
@@ -89,8 +91,7 @@ document.addEventListener("click", async (e) => {
                 body: JSON.stringify({ id })
             });
 
-            cartItems = await res.json();
-            renderCart();
+            await loadCart();
 
         } catch (err) {
             console.log("Remove error:", err);
@@ -123,8 +124,7 @@ document.addEventListener("click", async (e) => {
                 })
             });
 
-            cartItems = await res.json();
-            renderCart();
+            await loadCart();
 
         } catch (err) {
             console.log("Qty update error:", err);
@@ -157,9 +157,8 @@ cartButtons.forEach(button => {
             })
         })
         .then(res => res.json())
-        .then(data => {
-            cartItems = data;
-            renderCart();
+        .then(() => {
+            loadCart();
         })
         .catch(err => console.log("Add error:", err));
     });
