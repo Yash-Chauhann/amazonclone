@@ -77,7 +77,7 @@ export const CartProvider = ({ children }) => {
       const token = getToken();
       if (!token) return;
 
-      await axios.delete(`${API}/cart/decrease${id}`, {
+      await axios.delete(`${API}/cart/decrease/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
