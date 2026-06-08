@@ -77,7 +77,7 @@ export const CartProvider = ({ children }) => {
       const token = getToken();
       if (!token) return;
 
-      await axios.delete(`${API}/cart/${id}`, {
+      await axios.delete(`${API}/cart/decrease${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -92,22 +92,23 @@ export const CartProvider = ({ children }) => {
   // ======================
   // REMOVE ALL
   // ======================
-  const removeOne = async (id) => {
-    try {
-      const token = getToken();
-      if (!token) return;
+  // REMOVE ALL
+const removeFromCart = async (id) => {
+  try {
+    const token = getToken();
+    if (!token) return;
 
-      await axios.put(`${API}/cart/decrease/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+    await axios.delete(`${API}/cart/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
 
-      fetchCart();
-    } catch (err) {
-      console.log(err.message);
-    }
-  };
+    fetchCart();
+  } catch (err) {
+    console.log(err.message);
+  }
+};
 
   // ======================
   // TOTAL PRICE
