@@ -21,7 +21,7 @@ function loadCart() {
     fetch(`${API_BASE}/cart`, {
         headers: {
             "Content-Type": "application/json",
-            "authorization": token
+            "authorization": `Bearer ${token}`
         }
     })
     .then(res => res.json())
@@ -86,7 +86,7 @@ document.addEventListener("click", async (e) => {
     method: "DELETE",
     headers: {
         "Content-Type": "application/json",
-        "authorization": token
+        "authorization": `Bearer ${token}`
     }
 })
 
@@ -115,7 +115,7 @@ document.addEventListener("click", async (e) => {
     method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
-                    "authorization": token
+                    "authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     id,
@@ -147,7 +147,7 @@ cartButtons.forEach(button => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "authorization": token
+                "authorization": `Bearer ${token}`
             },
             body: JSON.stringify({
                 name,
@@ -169,7 +169,7 @@ function placeOrder() {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "authorization": token
+            "authorization": `Bearer ${token}`
         }
     })
     .then(res => res.json())
