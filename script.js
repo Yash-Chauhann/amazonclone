@@ -6,7 +6,8 @@ const API_BASE = "https://amazonclone-htzt.onrender.com";
 // ================= TOKEN CHECK =================
 const token = localStorage.getItem("token");
 
-if (!token) {
+if (!token || token === "null" || token === "undefined") {
+    console.log("No valid token found");
     window.location.href = "login.html";
 }
 
@@ -21,7 +22,7 @@ function loadCart() {
   fetch(`${API_BASE}/cart`, {
     headers: {
       "Content-Type": "application/json",
-      "authorization": `Bearer ${token}`
+      "Authorization": `Bearer ${token}`
     }
   })
   .then(res => res.json())
@@ -82,7 +83,7 @@ function renderCart() {
     totalPriceElement.innerText = total;
 }
 
-// ================= EVENT DELEGATION (FINAL FIX) =================
+// ================= EVENT DELEGATION =================
 document.addEventListener("click", async (e) => {
 
     const id = e.target.dataset.id;
@@ -90,17 +91,16 @@ document.addEventListener("click", async (e) => {
 
     // ================= REMOVE ITEM =================
     if (e.target.classList.contains("remove-btn")) {
-
         try {
-            const res = await fetch(`${API_BASE}/cart/${id}`, {
-    method: "DELETE",
-    headers: {
-        "Content-Type": "application/json",
-        "authorization": `Bearer ${token}`
-    }
-})
+            await fetch(`${API_BASE}/cart/${id}`, {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                }
+            });
 
-            await loadCart();
+            loadCart();
 
         } catch (err) {
             console.log("Remove error:", err);
@@ -121,11 +121,11 @@ document.addEventListener("click", async (e) => {
         if (newQty <= 0) return;
 
         try {
-            const res = await fetch(`${API_BASE}/cart/update/${id}`, {
-    method: "PUT",
+            await fetch(`${API_BASE}/cart/update/${id}`, {
+                method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
-                    "authorization": `Bearer ${token}`
+                    "Authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify({
                     id,
@@ -133,7 +133,7 @@ document.addEventListener("click", async (e) => {
                 })
             });
 
-            await loadCart();
+            loadCart();
 
         } catch (err) {
             console.log("Qty update error:", err);
@@ -157,7 +157,7 @@ cartButtons.forEach(button => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "authorization": `Bearer ${token}`
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify({
                 name,
@@ -166,9 +166,7 @@ cartButtons.forEach(button => {
             })
         })
         .then(res => res.json())
-        .then(() => {
-            loadCart();
-        })
+        .then(() => loadCart())
         .catch(err => console.log("Add error:", err));
     });
 });
@@ -179,7 +177,7 @@ function placeOrder() {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "authorization": `Bearer ${token}`
+            "Authorization": `Bearer ${token}`
         }
     })
     .then(res => res.json())
@@ -199,4 +197,4 @@ function logout() {
 // ================= INIT =================
 loadCart();
 
-console.log("🚀 FINAL CART SYSTEM READY (BUG FREE)");
+console.log("🚀 FINAL CART SYSTEM READY (FIXED)");
