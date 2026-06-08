@@ -1,5 +1,8 @@
 let cartItems = [];
 
+// ================= API BASE =================
+const API_BASE = "https://amazonclone-htzt.onrender.com";
+
 // ================= TOKEN CHECK =================
 const token = localStorage.getItem("token");
 
@@ -11,12 +14,11 @@ if (!token) {
 const cartCounter = document.querySelector("#cart-count");
 const cartList = document.querySelector("#cart-items-list");
 const totalPriceElement = document.querySelector("#total-price");
-
 const cartButtons = document.querySelectorAll(".add-to-cart");
 
 // ================= LOAD CART =================
 function loadCart() {
-    fetch("http://localhost:5000/cart", {
+    fetch(`${API_BASE}/cart`, {
         headers: {
             "Content-Type": "application/json",
             "authorization": token
@@ -79,7 +81,7 @@ function attachEvents() {
 
             const item = cartItems[btn.dataset.index];
 
-            fetch("http://localhost:5000/cart/remove", {
+            fetch(`${API_BASE}/cart/remove`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -91,7 +93,8 @@ function attachEvents() {
             .then(data => {
                 cartItems = data;
                 renderCart();
-            });
+            })
+            .catch(err => console.log("Remove error:", err));
         });
     });
 
@@ -107,8 +110,8 @@ function attachEvents() {
             if (action === "plus") newQty++;
             if (action === "minus") newQty--;
 
-            // remove first
-            fetch("http://localhost:5000/cart/remove", {
+            // REMOVE FIRST
+            fetch(`${API_BASE}/cart/remove`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -117,7 +120,8 @@ function attachEvents() {
                 body: JSON.stringify({ name: item.name })
             })
             .then(() => {
-                return fetch("http://localhost:5000/cart/add", {
+                // ADD UPDATED ITEM
+                return fetch(`${API_BASE}/cart`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -134,7 +138,8 @@ function attachEvents() {
             .then(data => {
                 cartItems = data;
                 renderCart();
-            });
+            })
+            .catch(err => console.log("Qty update error:", err));
         });
     });
 }
@@ -151,7 +156,7 @@ cartButtons.forEach(button => {
             box.querySelector(".price").innerText.replace("₹", "")
         );
 
-        fetch("http://localhost:5000/cart/add", {
+        fetch(`${API_BASE}/cart`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -174,7 +179,7 @@ cartButtons.forEach(button => {
 
 // ================= PLACE ORDER =================
 function placeOrder() {
-    fetch("http://localhost:5000/order/place", {
+    fetch(`${API_BASE}/order/place`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -182,8 +187,7 @@ function placeOrder() {
         }
     })
     .then(res => res.json())
-    .then(data => {
-        console.log(data);
+    .then(() => {
         alert("Order Placed Successfully!");
         loadCart();
     })
