@@ -1,6 +1,9 @@
 import { useState } from "react";
 import axios from "axios";
 
+// 🔥 API BASE (IMPORTANT)
+const API_BASE = "https://amazonclone-htzt.onrender.com";
+
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -8,7 +11,7 @@ function Login() {
   const loginUser = async () => {
     try {
       const res = await axios.post(
-        "https://amazonclone-htzt.onrender.com/auth/login",
+        `${API_BASE}/auth/login`,
         {
           email,
           password,
