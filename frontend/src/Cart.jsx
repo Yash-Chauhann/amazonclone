@@ -3,11 +3,10 @@ import { useCart } from "./context/CartContext";
 function Cart() {
   const { cart, removeFromCart, removeOne, addToCart } = useCart();
 
-  // SAFE TOTAL CALC (no NaN ever)
   const total = cart.reduce((sum, item) => {
     const price = parseFloat(item?.price || 0);
-    const qty = item?.quantity || 1;
-    return sum + (Number.isFinite(price) ? price * qty : 0);
+    const qty = item?.qty || 1;
+    return sum + price * qty;
   }, 0);
 
   return (
@@ -20,7 +19,7 @@ function Cart() {
         <>
           {cart.map((item) => {
             const price = parseFloat(item?.price || 0);
-            const qty = item?.quantity || 1;
+            const qty = item?.qty || 1;   // ✅ FIXED
 
             return (
               <div
@@ -40,10 +39,15 @@ function Cart() {
 
                   <p>Qty: {qty}</p>
 
-                  <button onClick={() => removeOne(item._id)}>-</button>
-                  <button onClick={() => addToCart(item)}>+</button>
+                  <button onClick={() => removeOne(item._id)}>
+                    -
+                  </button>
 
-                  <p>₹{Number.isFinite(price) ? price * qty : 0}</p>
+                  <button onClick={() => addToCart(item)}>
+                    +
+                  </button>
+
+                  <p>₹{price * qty}</p>
                 </div>
 
                 <button
@@ -63,7 +67,7 @@ function Cart() {
           })}
 
           <h2 style={{ marginTop: "20px" }}>
-            Total Price: ₹{Number.isFinite(total) ? total : 0}
+            Total Price: ₹{total}
           </h2>
         </>
       )}

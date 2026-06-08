@@ -45,6 +45,33 @@ router.post("/add", auth, async (req, res) => {
 });
 
 // ======================
+// UPDATE CART QUANTITY
+// ======================
+router.put("/update/:id", auth, async (req, res) => {
+  try {
+    const { qty } = req.body;
+
+    await Cart.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        userId: req.user.id,
+      },
+      {
+        qty,
+      }
+    );
+
+    const cart = await Cart.find({
+      userId: req.user.id,
+    });
+
+    res.json(cart);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// ======================
 // REMOVE FROM CART (FIXED)
 // ======================
 router.delete("/:id", auth, async (req, res) => {

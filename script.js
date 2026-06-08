@@ -82,14 +82,13 @@ document.addEventListener("click", async (e) => {
     if (e.target.classList.contains("remove-btn")) {
 
         try {
-            const res = await fetch(`${API_BASE}/cart/remove`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "authorization": token
-                },
-                body: JSON.stringify({ id })
-            });
+            const res = await fetch(`${API_BASE}/cart/${id}`, {
+    method: "DELETE",
+    headers: {
+        "Content-Type": "application/json",
+        "authorization": token
+    }
+})
 
             await loadCart();
 
@@ -112,8 +111,8 @@ document.addEventListener("click", async (e) => {
         if (newQty <= 0) return;
 
         try {
-            const res = await fetch(`${API_BASE}/cart/update`, {
-                method: "POST",
+            const res = await fetch(`${API_BASE}/cart/update/${id}`, {
+    method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                     "authorization": token
@@ -144,7 +143,7 @@ cartButtons.forEach(button => {
             box.querySelector(".price").innerText.replace("₹", "")
         );
 
-        fetch(`${API_BASE}/cart`, {
+        fetch(`${API_BASE}/cart/add`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
