@@ -68,81 +68,69 @@ function renderCart() {
 
     cartCounter.innerText = totalItems;
     totalPriceElement.innerText = total;
-
-    attachEvents();
 }
 
-// ================= EVENTS =================
-function attachEvents() {
+// ================= EVENT DELEGATION (FINAL FIX) =================
+document.addEventListener("click", async (e) => {
 
-    // REMOVE ITEM
-    document.querySelectorAll(".remove-btn").forEach(btn => {
-        btn.addEventListener("click", async () => {
+    const id = e.target.dataset.id;
+    const action = e.target.dataset.action;
 
-            const id = btn.dataset.id;
+    // ================= REMOVE ITEM =================
+    if (e.target.classList.contains("remove-btn")) {
 
-            try {
-                const res = await fetch(`${API_BASE}/cart/remove`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "authorization": token
-                    },
-                    body: JSON.stringify({ id })
-                });
+        try {
+            const res = await fetch(`${API_BASE}/cart/remove`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization": token
+                },
+                body: JSON.stringify({ id })
+            });
 
-                const data = await res.json();
-                cartItems = data;
-                renderCart();
+            cartItems = await res.json();
+            renderCart();
 
-            } catch (err) {
-                console.log("Remove error:", err);
-            }
-        });
-    });
+        } catch (err) {
+            console.log("Remove error:", err);
+        }
+    }
 
-    // QTY UPDATE (FINAL FIX)
-    document.querySelectorAll(".qty-btn").forEach(btn => {
-        btn.addEventListener("click", async () => {
+    // ================= QTY UPDATE =================
+    if (e.target.classList.contains("qty-btn")) {
 
-            const id = btn.dataset.id;
-            const action = btn.dataset.action;
+        const item = cartItems.find(i => i._id === id);
+        if (!item) return;
 
-            const item = cartItems.find(i => i._id === id);
+        let newQty = item.qty || 1;
 
-            if (!item) return;
+        if (action === "plus") newQty++;
+        if (action === "minus") newQty--;
 
-            let newQty = item.qty || 1;
+        if (newQty <= 0) return;
 
-            if (action === "plus") newQty++;
-            if (action === "minus") newQty--;
+        try {
+            const res = await fetch(`${API_BASE}/cart/update`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "authorization": token
+                },
+                body: JSON.stringify({
+                    id,
+                    qty: newQty
+                })
+            });
 
-            if (newQty <= 0) return;
+            cartItems = await res.json();
+            renderCart();
 
-            try {
-                const res = await fetch(`${API_BASE}/cart/update`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                        "authorization": token
-                    },
-                    body: JSON.stringify({
-                        id,
-                        qty: newQty
-                    })
-                });
-
-                const data = await res.json();
-
-                cartItems = data;
-                renderCart();
-
-            } catch (err) {
-                console.log("Qty update error:", err);
-            }
-        });
-    });
-}
+        } catch (err) {
+            console.log("Qty update error:", err);
+        }
+    }
+});
 
 // ================= ADD TO CART =================
 cartButtons.forEach(button => {
@@ -203,4 +191,4 @@ function logout() {
 // ================= INIT =================
 loadCart();
 
-console.log("🚀 Cart system fully fixed & stable");
+console.log("🚀 FINAL CART SYSTEM READY (BUG FREE)");
